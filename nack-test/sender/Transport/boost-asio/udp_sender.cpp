@@ -7,6 +7,8 @@
  * @description : TODO
  *******************************************************/
 
+#include <vector>
+
 #include "udp_sender.h"
 #include "pack.h"
 
@@ -60,6 +62,15 @@ namespace transportdemo {
 
   void UDPSender::handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd) {
     std::cout << "recv packet" << std::endl;
+    std::vector<uint16_t> seqs;
+    Pack::unpacking_nack(pkt, seqs);
+
+    for (auto seq : seqs) {
+      auto ite = pkt_map_.find(seq);
+      if (ite != pkt_map_.end()) {
+        send_packet(ite->second, pkt->mutable_endpoint());
+      }
+    }
 
     do_receive_from();
   }

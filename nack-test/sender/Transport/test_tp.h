@@ -13,6 +13,12 @@
 namespace transportdemo {
   static constexpr std::size_t UDP_PACKET_MAX_BYTES = 1400;
 
+  struct TESTTCPHeader {
+    uint32_t type;
+
+    uint16_t get_type() const { return ntohs(type); }
+  };
+
   struct TESTTPHeader {
     uint16_t sequence;
     uint32_t timestamp;
@@ -24,6 +30,21 @@ namespace transportdemo {
   struct TESTTPPayload {
     TESTTPHeader header;
     uint8_t      buf[1300];
+  };
+
+  struct FCI {
+    uint16_t pid;
+    uint16_t blp;
+
+    uint16_t get_pid() const { return ntohs(pid); }
+    uint16_t get_blp() const { return ntohs(blp); }
+
+  }; // struct _FCI
+
+  union TESTTCPPayload {
+    struct {
+      FCI fci[1];
+    }nack;
   };
 
   class TESTTPPacket {

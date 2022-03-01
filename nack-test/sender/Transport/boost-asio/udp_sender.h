@@ -23,7 +23,7 @@ public:
   UDPSender(std::string ip, uint16_t port, uint64_t timer_ms);
 
   void run();
-  void sender_test(uint16_t seq, uint32_t timestamp);
+  void sender_test(uint16_t seq, uint32_t timestamp, const UDPEndpoint &ep);
 private:
   void send_packet(TESTTPPacketPtr pkt, const UDPEndpoint &ep);
 
@@ -38,7 +38,7 @@ private:
   uint64_t      timer_ms_;
   DeadlineTimer timer_;
 
-  std::unordered_map<uint16_t, UDPSocketPrt> pkt_map_;
+  std::unordered_map<uint16_t, TESTTPPacketPtr> pkt_map_;
 };
 
 } // transport-demo
