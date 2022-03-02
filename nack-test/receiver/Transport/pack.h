@@ -10,7 +10,9 @@
 
 #ifndef NACK_TEST_PACK_H
 #define NACK_TEST_PACK_H
+
 #include <memory>
+#include <vector>
 
 namespace transportdemo {
   class TESTTPPacket;
@@ -19,6 +21,8 @@ namespace transportdemo {
   class Pack{
   public:
     static TESTTPPacketPtr packing_packet(uint16_t sequence, uint32_t timestamp);
+    static TESTTPPacketPtr packing_nack(const std::vector<uint16_t> &sequence_vector);
+    static bool unpacking_nack(TESTTPPacketPtr pkt, std::vector<uint16_t> &sequence_vector);
   };
 } // transport-demo
 
