@@ -68,6 +68,12 @@ namespace transportdemo {
   }
 
   void UDPSender::handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd) {
+    TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(pkt->mutable_buffer());
+    if (header->get_type() == 12) {
+      send_packet(pkt, pkt->mutable_endpoint());
+      return;
+    }
+
 
     std::vector<uint16_t> seqs;
     Pack::unpacking_nack(pkt, seqs);

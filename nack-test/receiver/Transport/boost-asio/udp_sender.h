@@ -46,6 +46,8 @@ private:
 
   std::unordered_map<uint16_t, UDPSocketPrt> pkt_map_;
   std::unordered_map<uint16_t, uint64_t> rtt_cout_map_;
+  uint16_t rtt_count_num_;
+  uint32_t rtt_;
 
   NackGeneratorPtr nackgen_;
 

@@ -18,6 +18,8 @@ namespace transportdemo {
   , local_port_(port)
   , timer_ms_(timer_ms)
   , cout_timer_ms_(0)
+  , rtt_count_num_(1)
+  , rtt_(1)
   , timer_(ios_, PosixTime::milliseconds(static_cast<int64_t>(timer_ms_))){
     socket_ = std::make_shared<UDPSocket>(ios_);
     nackgen_ = std::make_shared<NackGenerator>();
@@ -65,17 +67,19 @@ namespace transportdemo {
     send_ep_ = pkt->mutable_endpoint();
 
     TESTTPHeader *header = reinterpret_cast<TESTTPHeader *>(pkt->mutable_buffer());
+    if (header->get_type() == 12) {
+      TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(pkt->mutable_buffer());
+      auto num = payload->rtt.num;
+      auto iter = rtt_cout_map_.find(num);
+      if (iter != rtt_cout_map_.end()) {
+        uint32_t recv_time = (uint32_t)nackgen_->GetCurrentStamp64();
+        rtt_ = recv_time-iter->second;
+        nackgen_->UpdateRtt(rtt_);
+        std::cout << "rtt :" << rtt_ << std::endl;
+      }
+      return;
+    }
 
-
-    uint32_t send_time = header->get_timestamp();
-    uint32_t recv_time = (uint32_t)nackgen_->GetCurrentStamp64();
-    auto rtt = recv_time - send_time;
-//    std::cout << "recv packet seq:" << header->get_sequence() << ", rtt:"<< rtt << std::endl;
-//    if (header->get_sequence() %34 == 0) {
-//      std::cout << "recv packet seq:" << header->get_sequence() << ", rtt:"<< rtt << std::endl;
-//    }
-
-    nackgen_->UpdateRtt(rtt);
     nackgen_->ReceivePacket(pkt);
 
     do_receive_from();
@@ -92,7 +96,10 @@ namespace transportdemo {
   void UDPSender::handle_crude_timer(const ErrorCode &ec) {
 //    std::cout << "do_timer" << std::endl;
     if (cout_timer_ms_ % 100 == 0) {
-
+      rtt_cout_map_[rtt_count_num_] = nackgen_->GetCurrentStamp64();
+      auto rtt_packet = Pack::rtt_packing(rtt_count_num_);
+      this->send_packet(rtt_packet, send_ep_);
+      rtt_count_num_++;
     }
 
     auto seqs = nackgen_->GetNackBatch();

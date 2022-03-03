@@ -10,6 +10,10 @@
 #include "pack.h"
 #include "test_tp.h"
 
+#define TPYE_RTT 12
+#define TPYE_TRANSPORT_PACKET 1
+#define TPYE_TRANSPORT_INFO 2
+
 namespace transportdemo {
   static constexpr std::size_t RTP_HEADER_SIZE_BYTES  = 8;
   static constexpr std::size_t RTCP_HEADER_SIZE_BYTES  = 8;
@@ -19,9 +23,9 @@ namespace transportdemo {
 
   static void packing_header(TESTTPPacketPtr packet, uint16_t sequence, uint32_t timestamp) {
     TESTTPHeader *header = reinterpret_cast<TESTTPHeader *>(packet->mutable_buffer());
+    header->type = htons(TPYE_TRANSPORT_PACKET);
     header->sequence = htons(sequence);
     header->timestamp = htonl(timestamp);
-    header->padding = 0;
   }
 
   TESTTPPacketPtr Pack::packing_packet(uint16_t sequence, uint32_t timestamp){
@@ -40,7 +44,7 @@ namespace transportdemo {
     TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
 
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(packet->mutable_buffer());
-    header->type = 0;
+    header->type = htons(TPYE_TRANSPORT_INFO);
 
 
     TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(packet->mutable_buffer() + RTCP_HEADER_SIZE_BYTES);
@@ -108,7 +112,7 @@ namespace transportdemo {
     TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
 
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(packet->mutable_buffer());
-    header->type = htonl(12);
+    header->type = htons(TPYE_RTT);
 
     TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(packet->mutable_buffer() + RTCP_HEADER_SIZE_BYTES);
     payload->rtt.num = num;
