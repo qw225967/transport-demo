@@ -17,6 +17,8 @@
 
 namespace transportdemo {
 typedef std::shared_ptr<TESTTPPacket> TESTTPPacketPtr;
+class NackGenerator;
+typedef std::shared_ptr<NackGenerator> NackGeneratorPtr;
 
 class UDPSender {
 public:
@@ -29,6 +31,8 @@ public:
 
   void do_receive_from();
   void handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd);
+  void do_timer(bool first);
+  void handle_crude_timer(const ErrorCode &ec);
 
 private:
   IOService     ios_;
@@ -40,6 +44,9 @@ private:
 
 
   std::unordered_map<uint16_t, UDPSocketPrt> pkt_map_;
+  NackGeneratorPtr nackgen_;
+
+  UDPEndpoint send_ep_;
 };
 
 } // transport-demo

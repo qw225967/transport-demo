@@ -8,12 +8,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport/boost-asio/udp_sender.cpp" "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/cmake-build-debug/CMakeFiles/receiver.dir/Transport/boost-asio/udp_sender.cpp.o"
+  "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport/nack_gen.cpp" "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/cmake-build-debug/CMakeFiles/receiver.dir/Transport/nack_gen.cpp.o"
+  "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport/pack.cpp" "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/cmake-build-debug/CMakeFiles/receiver.dir/Transport/pack.cpp.o"
   "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/main.cpp" "/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/cmake-build-debug/CMakeFiles/receiver.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/opt/homebrew/Cellar/boost/1.76.0/include"
+  "../Transport"
+  "../Transport/boost-asio"
   )
 
 # The set of dependency files which are needed:

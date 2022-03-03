@@ -17,8 +17,13 @@ namespace transportdemo {
   : local_ip_(ip)
   , local_port_(port)
   , timer_ms_(timer_ms)
+  , seq_(1)
   , timer_(ios_, PosixTime::milliseconds(static_cast<int64_t>(timer_ms_))){
     socket_ = std::make_shared<UDPSocket>(ios_);
+    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("192.168.26.23");
+//    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
+    UDPEndpoint send_endpoint(send_addr,8001);
+    send_ep_ = send_endpoint;
   }
 
   void UDPSender::run() {
@@ -28,6 +33,7 @@ namespace transportdemo {
     socket_->bind(local_endpoint);
     do_receive_from();
 
+    do_timer(true);
 
     try {
       ios_.run();
@@ -35,6 +41,7 @@ namespace transportdemo {
     } catch (std::exception &e) {
       std::cout << "UDPSender run err" << std::endl;
     }
+
   }
 
   void UDPSender::sender_test(uint16_t seq, uint32_t timestamp, const UDPEndpoint &ep) {
@@ -61,9 +68,10 @@ namespace transportdemo {
   }
 
   void UDPSender::handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd) {
-    std::cout << "recv packet" << std::endl;
+
     std::vector<uint16_t> seqs;
     Pack::unpacking_nack(pkt, seqs);
+    std::cout << "recv packet nack size:" << seqs.size() << std::endl;
 
     for (auto seq : seqs) {
       auto ite = pkt_map_.find(seq);
@@ -73,5 +81,30 @@ namespace transportdemo {
     }
 
     do_receive_from();
+  }
+
+  void UDPSender::do_timer(bool first) {
+    if (!first) {
+      timer_.expires_at(timer_.expires_at() +
+      PosixTime::milliseconds(static_cast<int64_t>(timer_ms_)));
+    }
+    timer_.async_wait(std::bind(&UDPSender::handle_crude_timer, this, std::placeholders::_1));
+  }
+  void UDPSender::handle_crude_timer(const ErrorCode &ec) {
+    uint32_t now = (uint32_t)GetCurrentStamp64();
+    sender_test(seq_, now, send_ep_);
+    seq_++;
+//    if (seq_ % 30 == 0) {
+//      for (int i=seq_; i<=seq_+4;i++) {
+//        auto pkt = Pack::packing_packet(i, now);
+//        pkt_map_[i] = pkt;
+//      }
+//
+//
+//      seq_+=4;
+//    }
+
+
+    do_timer(false);
   }
 }

@@ -12,7 +12,7 @@
 
 namespace transportdemo {
   static constexpr std::size_t RTP_HEADER_SIZE_BYTES  = 8;
-  static constexpr std::size_t RTCP_HEADER_SIZE_BYTES  = 4;
+  static constexpr std::size_t RTCP_HEADER_SIZE_BYTES  = 8;
   static constexpr std::size_t NACK_ITEM_BYTES = 4;
   static constexpr std::size_t MAX_NACK_ITEM_NUM = 347;
 
@@ -41,6 +41,7 @@ namespace transportdemo {
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(packet->mutable_buffer());
     header->type = 0;
 
+
     TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(packet->mutable_buffer() + RTCP_HEADER_SIZE_BYTES);
 
     std::size_t nack_item_count = 0;
@@ -68,13 +69,15 @@ namespace transportdemo {
     }
     uint16_t length = static_cast<uint16_t>(RTCP_HEADER_SIZE_BYTES + NACK_ITEM_BYTES * nack_item_count);
 
+    header->length = htonl(length);
     packet->mod_length(length);
 
     return packet;
   }
 
   bool Pack::unpacking_nack(TESTTPPacketPtr pkt, std::vector<uint16_t> &sequence_vector) {
-    uint16_t len = pkt->length();
+    TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(pkt->mutable_buffer());
+    auto len = header->get_length();
 
     // at least one nack item.
     if (len < RTCP_HEADER_SIZE_BYTES) {

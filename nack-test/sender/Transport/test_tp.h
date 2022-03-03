@@ -15,8 +15,10 @@ namespace transportdemo {
 
   struct TESTTCPHeader {
     uint32_t type;
+    uint32_t length;
 
-    uint16_t get_type() const { return ntohs(type); }
+    uint32_t get_type() const { return ntohl(type); }
+    uint32_t get_length() const { return ntohl(length); }
   };
 
   struct TESTTPHeader {
@@ -25,6 +27,7 @@ namespace transportdemo {
     uint16_t padding;
 
     uint16_t get_sequence() const { return ntohs(sequence); }
+    uint32_t get_timestamp() const { return ntohl(timestamp); }
   };
 
   struct TESTTPPayload {

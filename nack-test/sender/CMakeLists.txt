@@ -5,9 +5,11 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_BOOST_DIR /opt/homebrew/Cellar/boost/1.76.0)
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 message(STATUS ${CMAKE_BUILD_TYPE})
 set(CMAKE_CXX_FLAGS_DEBUG "-O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+
 
 include_directories(
         ${CMAKE_BOOST_DIR}/include

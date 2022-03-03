@@ -6,12 +6,20 @@
  * @file        : test-tp.h
  * @description : TODO
  *******************************************************/
-#include "../transport_fd.h"
+#include "transport_fd.h"
 
 #ifndef NACK_TEST_TEST_TP_H
 #define NACK_TEST_TEST_TP_H
 namespace transportdemo {
   static constexpr std::size_t UDP_PACKET_MAX_BYTES = 1400;
+
+  struct TESTTCPHeader {
+    uint32_t type;
+    uint32_t length;
+
+    uint32_t get_type() const { return ntohl(type); }
+    uint32_t get_length() const { return ntohl(length); }
+  };
 
   struct TESTTPHeader {
     uint16_t sequence;
@@ -19,11 +27,27 @@ namespace transportdemo {
     uint16_t padding;
 
     uint16_t get_sequence() const { return ntohs(sequence); }
+    uint32_t get_timestamp() const { return ntohl(timestamp); }
   };
 
   struct TESTTPPayload {
     TESTTPHeader header;
     uint8_t      buf[1300];
+  };
+
+  struct FCI {
+    uint16_t pid;
+    uint16_t blp;
+
+    uint16_t get_pid() const { return ntohs(pid); }
+    uint16_t get_blp() const { return ntohs(blp); }
+
+  }; // struct _FCI
+
+  union TESTTCPPayload {
+    struct {
+      FCI fci[1];
+    }nack;
   };
 
   class TESTTPPacket {

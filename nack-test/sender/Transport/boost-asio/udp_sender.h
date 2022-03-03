@@ -29,7 +29,16 @@ private:
 
   void do_receive_from();
   void handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd);
+  void do_timer(bool first);
+  void handle_crude_timer(const ErrorCode &ec);
 
+  uint64_t GetCurrentStamp64() {
+    boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::gregorian::Jan, 1));
+    boost::posix_time::time_duration time_from_epoch =
+        boost::posix_time::microsec_clock::universal_time() - epoch;
+
+    return time_from_epoch.total_microseconds()/1000;
+  }
 private:
   IOService     ios_;
   UDPSocketPrt  socket_;
@@ -39,6 +48,9 @@ private:
   DeadlineTimer timer_;
 
   std::unordered_map<uint16_t, TESTTPPacketPtr> pkt_map_;
+
+  UDPEndpoint send_ep_;
+  uint16_t seq_;
 };
 
 } // transport-demo

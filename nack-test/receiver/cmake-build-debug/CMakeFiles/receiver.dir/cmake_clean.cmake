@@ -1,4 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/receiver.dir/Transport/boost-asio/udp_sender.cpp.o"
+  "CMakeFiles/receiver.dir/Transport/nack_gen.cpp.o"
+  "CMakeFiles/receiver.dir/Transport/pack.cpp.o"
   "CMakeFiles/receiver.dir/main.cpp.o"
   "receiver"
   "receiver.pdb"
