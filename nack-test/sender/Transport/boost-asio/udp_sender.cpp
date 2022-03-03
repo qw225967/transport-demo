@@ -20,8 +20,8 @@ namespace transportdemo {
   , seq_(1)
   , timer_(ios_, PosixTime::milliseconds(static_cast<int64_t>(timer_ms_))){
     socket_ = std::make_shared<UDPSocket>(ios_);
-//    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("192.168.26.23");
-    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
+    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("192.168.26.23");
+//    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
     UDPEndpoint send_endpoint(send_addr,8001);
     send_ep_ = send_endpoint;
   }

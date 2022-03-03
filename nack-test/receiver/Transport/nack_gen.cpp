@@ -111,23 +111,23 @@ namespace transportdemo {
       uint16_t seq       = nackInfo.seq;
 
       // clang-format off
-      if ( filter == NackFilter::SEQ &&
-           nackInfo.sentAtMs == 0 &&
-           ( nackInfo.sendAtSeq == this->lastSeq ||
-             SeqHigherThan(this->lastSeq, nackInfo.sendAtSeq))
-          ) {
-        nackBatch.emplace_back(seq);
-        nackInfo.retries++;
-        nackInfo.sentAtMs = nowMs;
-
-        if (nackInfo.retries >= MaxNackRetries) {
-          it = this->nackList.erase(it);
-        } else {
-          ++it;
-        }
-
-        continue;
-        }
+//      if ( filter == NackFilter::SEQ &&
+//           nackInfo.sentAtMs == 0 &&
+//           ( nackInfo.sendAtSeq == this->lastSeq ||
+//             SeqHigherThan(this->lastSeq, nackInfo.sendAtSeq))
+//          ) {
+//        nackBatch.emplace_back(seq);
+//        nackInfo.retries++;
+//        nackInfo.sentAtMs = nowMs;
+//
+//        if (nackInfo.retries >= MaxNackRetries) {
+//          it = this->nackList.erase(it);
+//        } else {
+//          ++it;
+//        }
+//
+//        continue;
+//        }
 
       if (filter == NackFilter::TIME && nowMs - nackInfo.sentAtMs >= this->rtt) {
         nackBatch.emplace_back(seq);

@@ -102,7 +102,7 @@ namespace transportdemo {
       rtt_count_num_++;
     }
 
-    if (count_timer_ms_ % 500) {
+    if (count_timer_ms_ % 500 == 0) {
       nackgen_->UpdateRtt(rtt_);
       std::cout << "rtt :" << rtt_ << std::endl;
     }
