@@ -132,8 +132,9 @@ namespace transportdemo {
       if (filter == NackFilter::TIME && nowMs - nackInfo.sentAtMs >= this->rtt) {
         nackBatch.emplace_back(seq);
         nackInfo.retries++;
-        nackInfo.sentAtMs = nowMs;
         auto oldMs = nackInfo.sentAtMs;
+
+        nackInfo.sentAtMs = nowMs;
         std::cout << "retry seq:" << seq << ", times:" << nackInfo.retries << ", interval:" << nowMs-oldMs << std::endl;
         if (nackInfo.retries >= MaxNackRetries) {
           it = this->nackList.erase(it);
