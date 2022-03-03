@@ -99,6 +99,10 @@ namespace transportdemo {
     }
   }
 
+  double CalculateRttLimit2SendNack(int tryTimes) {
+    return tryTimes < 3 ?  (double)(tryTimes*0.4) + 1 : 2;
+  }
+
   std::vector<uint16_t> NackGenerator::GetNackBatch() {
     uint64_t nowMs = GetCurrentStamp64();
     NackFilter filter = NackFilter::TIME;
@@ -128,8 +132,11 @@ namespace transportdemo {
 //
 //        continue;
 //        }
+      auto limit_var = uint64_t( this->rtt / CalculateRttLimit2SendNack(nackInfo.retries) );
 
-      if (filter == NackFilter::TIME && nowMs - nackInfo.sentAtMs >= this->rtt) {
+      if (filter == NackFilter::TIME && nowMs - nackInfo.sentAtMs >= limit_var) {
+
+//      if (filter == NackFilter::TIME && nowMs - nackInfo.sentAtMs >= this->rtt) {
         nackBatch.emplace_back(seq);
         nackInfo.retries++;
         auto oldMs = nackInfo.sentAtMs;
