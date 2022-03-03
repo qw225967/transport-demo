@@ -136,7 +136,7 @@ namespace transportdemo {
         if (oldMs == 0)
           oldMs = nowMs;
         nackInfo.sentAtMs = nowMs;
-        std::cout << "retry seq:" << seq << ", times:" << nackInfo.retries << ", interval:" << nowMs-oldMs << std::endl;
+        std::cout << "retry seq:" << seq << ", times:" << unsigned(nackInfo.retries) << ", interval:" << nowMs-oldMs << std::endl;
         if (nackInfo.retries >= MaxNackRetries) {
           it = this->nackList.erase(it);
         } else {
