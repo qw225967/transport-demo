@@ -18,7 +18,7 @@ namespace transportdemo {
     uint32_t length;
     uint16_t padding;
 
-    uint32_t get_type() const { return ntohl(type); }
+    uint32_t get_type() const { return ntohs(type); }
     uint32_t get_length() const { return ntohl(length); }
   };
 
