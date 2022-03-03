@@ -104,12 +104,12 @@ namespace transportdemo {
 
     if (count_timer_ms_ % 500 == 0) {
       nackgen_->UpdateRtt(rtt_);
-      std::cout << "rtt :" << rtt_ << std::endl;
+//      std::cout << "rtt :" << rtt_ << std::endl;
     }
 
     auto seqs = nackgen_->GetNackBatch();
-    if (seqs.size() > 0)
-      std::cout << "do_timer seqs size:" << seqs.size() << std::endl;
+//    if (seqs.size() > 0)
+//      std::cout << "do_timer seqs size:" << seqs.size() << std::endl;
     auto nack = Pack::packing_nack(seqs);
     if (!seqs.empty())
       this->send_packet(nack, send_ep_);

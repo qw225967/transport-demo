@@ -44,7 +44,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/opt/homebrew/Cellar/boost/1.76.0/include"/>
+					<Add directory="/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/third_party/linux/boost/include"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport/boost-asio"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
@@ -67,7 +67,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/opt/homebrew/Cellar/boost/1.76.0/include"/>
+					<Add directory="/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/third_party/linux/boost/include"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/Transport/boost-asio"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>

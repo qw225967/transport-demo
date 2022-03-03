@@ -17,7 +17,7 @@ set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/opt/homebrew/Cellar/boost/1.76.0/include"
+  "../third_party/linux/boost/include"
   "../Transport"
   "../Transport/boost-asio"
   )
