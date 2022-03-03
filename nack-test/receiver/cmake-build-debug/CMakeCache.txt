@@ -230,12 +230,6 @@ nack_test_BINARY_DIR:STATIC=/Users/admin/go/src/github.com/transport-demo/nack-t
 //Value Computed by CMake
 nack_test_SOURCE_DIR:STATIC=/Users/admin/go/src/github.com/transport-demo/nack-test/receiver
 
-//Value Computed by CMake
-receiver_BINARY_DIR:STATIC=/Users/admin/go/src/github.com/transport-demo/nack-test/receiver/cmake-build-debug
-
-//Value Computed by CMake
-receiver_SOURCE_DIR:STATIC=/Users/admin/go/src/github.com/transport-demo/nack-test/receiver
-
 
 ########################
 # INTERNAL cache entries

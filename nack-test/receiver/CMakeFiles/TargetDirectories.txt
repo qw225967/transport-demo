@@ -1,3 +1,0 @@
-/data/frq/code/transport-demo/nack-test/receiver/CMakeFiles/receiver.dir
-/data/frq/code/transport-demo/nack-test/receiver/CMakeFiles/edit_cache.dir
-/data/frq/code/transport-demo/nack-test/receiver/CMakeFiles/rebuild_cache.dir

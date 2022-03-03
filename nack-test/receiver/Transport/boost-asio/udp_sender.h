@@ -40,12 +40,12 @@ private:
   std::string   local_ip_;
   uint16_t      local_port_;
   uint64_t      timer_ms_;
-  uint64_t      cout_timer_ms_;
+  uint64_t      count_timer_ms_;
   DeadlineTimer timer_;
 
 
   std::unordered_map<uint16_t, UDPSocketPrt> pkt_map_;
-  std::unordered_map<uint16_t, uint64_t> rtt_cout_map_;
+  std::unordered_map<uint16_t, uint32_t> rtt_cout_map_;
   uint16_t rtt_count_num_;
   uint32_t rtt_;
 

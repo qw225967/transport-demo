@@ -20,8 +20,8 @@ namespace transportdemo {
   , seq_(1)
   , timer_(ios_, PosixTime::milliseconds(static_cast<int64_t>(timer_ms_))){
     socket_ = std::make_shared<UDPSocket>(ios_);
-    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("192.168.26.23");
-//    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
+//    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("192.168.26.23");
+    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
     UDPEndpoint send_endpoint(send_addr,8001);
     send_ep_ = send_endpoint;
   }
@@ -69,8 +69,12 @@ namespace transportdemo {
 
   void UDPSender::handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd) {
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(pkt->mutable_buffer());
+
     if (header->get_type() == 12) {
-      send_packet(pkt, pkt->mutable_endpoint());
+      TESTTCPPayload * rtt = reinterpret_cast<TESTTCPPayload *>(pkt->mutable_buffer()+8);
+      auto rtt_pack = Pack::rtt_packing(rtt->rtt.num);
+      send_packet(rtt_pack, pkt->mutable_endpoint());
+      do_receive_from();
       return;
     }
 
