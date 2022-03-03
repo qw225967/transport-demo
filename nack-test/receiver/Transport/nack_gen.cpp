@@ -133,8 +133,10 @@ namespace transportdemo {
         nackBatch.emplace_back(seq);
         nackInfo.retries++;
         auto oldMs = nackInfo.sentAtMs;
-        if (oldMs == 0)
+        if (oldMs == 0){
           oldMs = nowMs;
+        }
+
         nackInfo.sentAtMs = nowMs;
         std::cout << "retry seq:" << seq << ", times:" << unsigned(nackInfo.retries) << ", interval:" << nowMs-oldMs << std::endl;
         if (nackInfo.retries >= MaxNackRetries) {
