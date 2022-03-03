@@ -95,7 +95,7 @@ namespace transportdemo {
     for (uint16_t seq = seqStart; seq != seqEnd; ++seq)
     {
       if (this->nackList.find(seq) == this->nackList.end())
-        this->nackList.emplace(std::make_pair(seq, NackInfo{ seq, seq }));
+        this->nackList.emplace(std::make_pair(seq, NackInfo{ seq, seq, 0, 0 }));
     }
   }
 
@@ -133,7 +133,8 @@ namespace transportdemo {
         nackBatch.emplace_back(seq);
         nackInfo.retries++;
         auto oldMs = nackInfo.sentAtMs;
-
+        if (oldMs == 0)
+          oldMs = nowMs;
         nackInfo.sentAtMs = nowMs;
         std::cout << "retry seq:" << seq << ", times:" << nackInfo.retries << ", interval:" << nowMs-oldMs << std::endl;
         if (nackInfo.retries >= MaxNackRetries) {

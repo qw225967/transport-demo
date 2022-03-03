@@ -28,11 +28,11 @@ namespace transportdemo {
     struct NackInfo
         {
           NackInfo() = default;
-          explicit NackInfo(uint16_t seq, uint16_t sendAtSeq)
+          explicit NackInfo(uint16_t seq, uint16_t sendAtSeq, uint64_t ms, uint8_t time)
           : seq(seq)
           , sendAtSeq(sendAtSeq)
-          , sentAtMs(0)
-          , retries(0) {
+          , sentAtMs(ms)
+          , retries(time) {
           }
 
           uint16_t seq{ 0u };
