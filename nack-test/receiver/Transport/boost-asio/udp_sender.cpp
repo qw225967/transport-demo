@@ -17,6 +17,7 @@ namespace transportdemo {
   : local_ip_(ip)
   , local_port_(port)
   , timer_ms_(timer_ms)
+  , cout_timer_ms_(0)
   , timer_(ios_, PosixTime::milliseconds(static_cast<int64_t>(timer_ms_))){
     socket_ = std::make_shared<UDPSocket>(ios_);
     nackgen_ = std::make_shared<NackGenerator>();
@@ -90,6 +91,9 @@ namespace transportdemo {
   }
   void UDPSender::handle_crude_timer(const ErrorCode &ec) {
 //    std::cout << "do_timer" << std::endl;
+    if (cout_timer_ms_ % 100 == 0) {
+
+    }
 
     auto seqs = nackgen_->GetNackBatch();
     if (seqs.size() > 0)
@@ -98,6 +102,7 @@ namespace transportdemo {
     if (!seqs.empty())
       this->send_packet(nack, send_ep_);
 
+    cout_timer_ms_ += timer_ms_;
     do_timer(false);
   }
 

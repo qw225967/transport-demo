@@ -23,6 +23,7 @@ namespace transportdemo {
     static TESTTPPacketPtr packing_packet(uint16_t sequence, uint32_t timestamp);
     static TESTTPPacketPtr packing_nack(const std::vector<uint16_t> &sequence_vector);
     static bool unpacking_nack(TESTTPPacketPtr pkt, std::vector<uint16_t> &sequence_vector);
+    static TESTTPPacketPtr rtt_packing(uint16_t num);
   };
 } // transport-demo
 

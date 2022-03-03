@@ -133,7 +133,8 @@ namespace transportdemo {
         nackBatch.emplace_back(seq);
         nackInfo.retries++;
         nackInfo.sentAtMs = nowMs;
-        std::cout << "retry seq:" << seq << ", times:" << nackInfo.retries << std::endl;
+        auto oldMs = nackInfo.sentAtMs;
+        std::cout << "retry seq:" << seq << ", times:" << nackInfo.retries << ", interval:" << nowMs-oldMs << std::endl;
         if (nackInfo.retries >= MaxNackRetries) {
           it = this->nackList.erase(it);
         } else {

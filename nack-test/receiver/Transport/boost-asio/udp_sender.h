@@ -40,10 +40,13 @@ private:
   std::string   local_ip_;
   uint16_t      local_port_;
   uint64_t      timer_ms_;
+  uint64_t      cout_timer_ms_;
   DeadlineTimer timer_;
 
 
   std::unordered_map<uint16_t, UDPSocketPrt> pkt_map_;
+  std::unordered_map<uint16_t, uint64_t> rtt_cout_map_;
+
   NackGeneratorPtr nackgen_;
 
   UDPEndpoint send_ep_;

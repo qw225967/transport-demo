@@ -48,6 +48,9 @@ namespace transportdemo {
     struct {
       FCI fci[1];
     }nack;
+    struct {
+      uint32_t num;
+    }rtt;
   };
 
   class TESTTPPacket {

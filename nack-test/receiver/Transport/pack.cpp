@@ -14,6 +14,7 @@ namespace transportdemo {
   static constexpr std::size_t RTP_HEADER_SIZE_BYTES  = 8;
   static constexpr std::size_t RTCP_HEADER_SIZE_BYTES  = 8;
   static constexpr std::size_t NACK_ITEM_BYTES = 4;
+  static constexpr std::size_t RTT_PAYLOAD_BYTES = 4;
   static constexpr std::size_t MAX_NACK_ITEM_NUM = 347;
 
   static void packing_header(TESTTPPacketPtr packet, uint16_t sequence, uint32_t timestamp) {
@@ -101,6 +102,22 @@ namespace transportdemo {
     }
 
     return true;
+  }
+
+  TESTTPPacketPtr Pack::rtt_packing(uint16_t num) {
+    TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
+
+    TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(packet->mutable_buffer());
+    header->type = htonl(12);
+
+    TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(packet->mutable_buffer() + RTCP_HEADER_SIZE_BYTES);
+    payload->rtt.num = num;
+    uint16_t length = static_cast<uint16_t>(RTCP_HEADER_SIZE_BYTES + RTT_PAYLOAD_BYTES);
+
+    header->length = htonl(length);
+    packet->mod_length(length);
+
+    return packet;
   }
 
 } // transport-demo
