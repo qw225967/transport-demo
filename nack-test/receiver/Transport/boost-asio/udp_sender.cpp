@@ -95,14 +95,14 @@ namespace transportdemo {
   }
   void UDPSender::handle_crude_timer(const ErrorCode &ec) {
 //    std::cout << "do_timer" << std::endl;
-    if (count_timer_ms_ % 100 == 0) {
+    if (count_timer_ms_ % 80 == 0) {
       rtt_cout_map_[rtt_count_num_] = (uint32_t)nackgen_->GetCurrentStamp64();
       auto rtt_packet = Pack::rtt_packing(rtt_count_num_);
       this->send_packet(rtt_packet, send_ep_);
       rtt_count_num_++;
     }
 
-    if (count_timer_ms_ % 500 == 0) {
+    if (count_timer_ms_ % 400 == 0) {
       nackgen_->UpdateRtt(rtt_);
 //      std::cout << "rtt :" << rtt_ << std::endl;
     }

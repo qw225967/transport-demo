@@ -5,7 +5,7 @@
 int main() {
   std::string ip("0.0.0.0");
   uint16_t port(8001);
-  transportdemo::UDPSender sender(ip, port, 20);
+  transportdemo::UDPSender sender(ip, port, 40);
 
   sender.run();
 
