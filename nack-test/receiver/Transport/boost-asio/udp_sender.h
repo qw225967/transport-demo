@@ -45,7 +45,7 @@ private:
 
 
   std::unordered_map<uint16_t, UDPSocketPrt> pkt_map_;
-  std::unordered_map<uint16_t, uint32_t> rtt_cout_map_;
+  std::unordered_map<uint16_t, uint32_t> rtt_count_map_;
   uint16_t rtt_count_num_;
   uint32_t rtt_;
 

@@ -44,7 +44,6 @@ namespace transportdemo {
       std::cout << "UDPSender run err" << std::endl;
     }
 
-
   }
 
   void UDPSender::send_packet(TESTTPPacketPtr pkt, const UDPEndpoint &ep) {
@@ -70,11 +69,11 @@ namespace transportdemo {
     if (header->get_type() == 12) {
       TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(pkt->mutable_buffer() + 8);
       auto num = payload->rtt.num;
-      auto iter = rtt_cout_map_.find(num);
-      if (iter != rtt_cout_map_.end()) {
+      auto iter = rtt_count_map_.find(num);
+      if (iter != rtt_count_map_.end()) {
         uint32_t recv_time = (uint32_t)nackgen_->GetCurrentStamp64();
         rtt_ = ((recv_time - iter->second) + rtt_)/2;
-        rtt_cout_map_.erase(iter);
+        rtt_count_map_.erase(iter);
       }
       do_receive_from();
       return;
@@ -96,7 +95,7 @@ namespace transportdemo {
   void UDPSender::handle_crude_timer(const ErrorCode &ec) {
 //    std::cout << "do_timer" << std::endl;
     if (count_timer_ms_ % 80 == 0) {
-      rtt_cout_map_[rtt_count_num_] = (uint32_t)nackgen_->GetCurrentStamp64();
+      rtt_count_map_[rtt_count_num_] = (uint32_t)nackgen_->GetCurrentStamp64();
       auto rtt_packet = Pack::rtt_packing(rtt_count_num_);
       this->send_packet(rtt_packet, send_ep_);
       rtt_count_num_++;
