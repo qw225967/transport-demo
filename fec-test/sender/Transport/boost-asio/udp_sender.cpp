@@ -2,7 +2,7 @@
  * @author      : dog head
  * @date        : Created in 2022/3/1 3:51 下午
  * @mail        : qw225967@github.com
- * @project     : nack_test
+ * @project     : fec_test
  * @file        : udp_sender.cpp
  * @description : TODO
  *******************************************************/

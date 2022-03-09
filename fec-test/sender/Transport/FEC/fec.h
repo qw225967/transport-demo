@@ -2,7 +2,7 @@
  * @author      : dog head
  * @date        : Created in 2022/3/8 3:16 下午
  * @mail        : qw225967@github.com
- * @project     : nack_test
+ * @project     : fec_test
  * @file        : fec.h
  * @description : TODO
  *******************************************************/
@@ -47,8 +47,8 @@
  * This is the only parameter you may want to change.
  */
 
-#ifndef NACK_TEST_FEC_H
-#define NACK_TEST_FEC_H
+#ifndef FEC_TEST_FEC_H
+#define FEC_TESTT_FEC_H
 
 #ifndef GF_BITS
 #define GF_BITS  8	/* code over GF(2**GF_BITS) - change to suit */
@@ -66,4 +66,4 @@ int fec_decode(void *code, void *pkt[], int index[], int sz) ;
 
 
 
-#endif //NACK_TEST_FEC_H
+#endif //FEC_TEST_FEC_H
