@@ -47,6 +47,7 @@
 					<Add directory="/opt/homebrew/Cellar/boost/1.76.0/include"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/boost-asio"/>
+					<Add directory="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
@@ -70,6 +71,7 @@
 					<Add directory="/opt/homebrew/Cellar/boost/1.76.0/include"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport"/>
 					<Add directory="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/boost-asio"/>
+					<Add directory="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
@@ -84,6 +86,18 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec.c">
+			<Option target="nack_test"/>
+		</Unit>
+		<Unit filename="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec.h">
+			<Option target="nack_test"/>
+		</Unit>
+		<Unit filename="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec_gen.cpp">
+			<Option target="nack_test"/>
+		</Unit>
+		<Unit filename="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec_gen.h">
+			<Option target="nack_test"/>
+		</Unit>
 		<Unit filename="/Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/boost-asio/udp_sender.cpp">
 			<Option target="nack_test"/>
 		</Unit>

@@ -15,6 +15,7 @@ include_directories(
         ${CMAKE_BOOST_DIR}/include
         ${CMAKE_SOURCE_DIR}/Transport
         ${CMAKE_SOURCE_DIR}/Transport/boost-asio
+        ${CMAKE_SOURCE_DIR}/Transport/FEC
 )
 
 link_directories(
@@ -26,4 +27,6 @@ add_executable(
         main.cpp
         Transport/pack.cpp
         Transport/boost-asio/udp_sender.cpp
+        Transport/FEC/fec.c
+        Transport/FEC/fec_gen.cpp
 )

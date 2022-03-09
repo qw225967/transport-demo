@@ -48,7 +48,7 @@
  */
 
 #ifndef FEC_TEST_FEC_H
-#define FEC_TESTT_FEC_H
+#define FEC_TEST_FEC_H
 
 #ifndef GF_BITS
 #define GF_BITS  8	/* code over GF(2**GF_BITS) - change to suit */

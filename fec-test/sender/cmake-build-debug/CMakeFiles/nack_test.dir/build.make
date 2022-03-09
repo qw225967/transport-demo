@@ -105,11 +105,39 @@ CMakeFiles/nack_test.dir/Transport/boost-asio/udp_sender.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nack_test.dir/Transport/boost-asio/udp_sender.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/boost-asio/udp_sender.cpp -o CMakeFiles/nack_test.dir/Transport/boost-asio/udp_sender.cpp.s
 
+CMakeFiles/nack_test.dir/Transport/FEC/fec.c.o: CMakeFiles/nack_test.dir/flags.make
+CMakeFiles/nack_test.dir/Transport/FEC/fec.c.o: ../Transport/FEC/fec.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/admin/go/src/github.com/transport-demo/fec-test/sender/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/nack_test.dir/Transport/FEC/fec.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/nack_test.dir/Transport/FEC/fec.c.o -c /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec.c
+
+CMakeFiles/nack_test.dir/Transport/FEC/fec.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/nack_test.dir/Transport/FEC/fec.c.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec.c > CMakeFiles/nack_test.dir/Transport/FEC/fec.c.i
+
+CMakeFiles/nack_test.dir/Transport/FEC/fec.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/nack_test.dir/Transport/FEC/fec.c.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec.c -o CMakeFiles/nack_test.dir/Transport/FEC/fec.c.s
+
+CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.o: CMakeFiles/nack_test.dir/flags.make
+CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.o: ../Transport/FEC/fec_gen.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/admin/go/src/github.com/transport-demo/fec-test/sender/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.o -c /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec_gen.cpp
+
+CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec_gen.cpp > CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.i
+
+CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/admin/go/src/github.com/transport-demo/fec-test/sender/Transport/FEC/fec_gen.cpp -o CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.s
+
 # Object files for target nack_test
 nack_test_OBJECTS = \
 "CMakeFiles/nack_test.dir/main.cpp.o" \
 "CMakeFiles/nack_test.dir/Transport/pack.cpp.o" \
-"CMakeFiles/nack_test.dir/Transport/boost-asio/udp_sender.cpp.o"
+"CMakeFiles/nack_test.dir/Transport/boost-asio/udp_sender.cpp.o" \
+"CMakeFiles/nack_test.dir/Transport/FEC/fec.c.o" \
+"CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.o"
 
 # External object files for target nack_test
 nack_test_EXTERNAL_OBJECTS =
@@ -117,9 +145,11 @@ nack_test_EXTERNAL_OBJECTS =
 nack_test: CMakeFiles/nack_test.dir/main.cpp.o
 nack_test: CMakeFiles/nack_test.dir/Transport/pack.cpp.o
 nack_test: CMakeFiles/nack_test.dir/Transport/boost-asio/udp_sender.cpp.o
+nack_test: CMakeFiles/nack_test.dir/Transport/FEC/fec.c.o
+nack_test: CMakeFiles/nack_test.dir/Transport/FEC/fec_gen.cpp.o
 nack_test: CMakeFiles/nack_test.dir/build.make
 nack_test: CMakeFiles/nack_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/admin/go/src/github.com/transport-demo/fec-test/sender/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable nack_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/admin/go/src/github.com/transport-demo/fec-test/sender/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable nack_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/nack_test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

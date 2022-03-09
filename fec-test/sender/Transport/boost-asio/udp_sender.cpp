@@ -11,6 +11,13 @@
 
 #include "udp_sender.h"
 #include "pack.h"
+#include "FEC/fec_gen.h"
+
+
+#define FEC_K 4
+#define FEC_N 8
+#define FEC_SIZE 10
+
 
 namespace transportdemo {
   UDPSender::UDPSender(std::string ip, uint16_t port, uint64_t timer_ms)
@@ -24,6 +31,8 @@ namespace transportdemo {
 //    boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
     UDPEndpoint send_endpoint(send_addr,8001);
     send_ep_ = send_endpoint;
+
+    fec_gen_ = std::make_shared<FECGenerator>(FEC_K, FEC_N, FEC_SIZE);
   }
 
   void UDPSender::run() {
@@ -47,6 +56,14 @@ namespace transportdemo {
   void UDPSender::sender_test(uint16_t seq, uint32_t timestamp, const UDPEndpoint &ep) {
     auto pkt = Pack::packing_packet(seq, timestamp);
     pkt_map_[seq] = pkt;
+
+    fec_gen_->Encode(pkt->mutable_buffer(), pkt->length(), std::bind(&UDPSender::fec_encode_callback, this,
+                                                                     std::placeholders::_1,
+                                                                     std::placeholders::_2,
+                                                                     std::placeholders::_3,
+                                                                     std::placeholders::_4,
+                                                                     std::placeholders::_5,
+                                                                     std::placeholders::_6));
 
     send_packet(pkt, ep);
   }
@@ -104,17 +121,29 @@ namespace transportdemo {
     uint32_t now = (uint32_t)GetCurrentStamp64();
     sender_test(seq_, now, send_ep_);
     seq_++;
-//    if (seq_ % 30 == 0) {
-//      for (int i=seq_; i<=seq_+4;i++) {
-//        auto pkt = Pack::packing_packet(i, now);
-//        pkt_map_[i] = pkt;
-//      }
-//
-//
-//      seq_+=4;
-//    }
-
 
     do_timer(false);
   }
+
+  void UDPSender::fec_encode_callback(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+                           size_t size) {
+
+    if(groupId % 2 == 0){
+      if(index < FEC_K){
+        //printf("client drop [%lld][%d]\n",groupId,index);
+        return;
+      }
+    }
+    else{
+      if(index > FEC_K){
+        //printf("client drop [%lld][%d]\n",groupId,index);
+        return;
+      }
+    }
+
+    auto pkt = Pack::fec_packing(groupId, k, n, index, data, size);
+    send_packet(pkt, send_ep_);
+
+  }
+
 }

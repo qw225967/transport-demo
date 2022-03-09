@@ -6,6 +6,7 @@
  * @file        : test-tp.h
  * @description : TODO
  *******************************************************/
+
 #include "transport_fd.h"
 
 #ifndef FEC_TEST_TEST_TP_H
@@ -30,6 +31,34 @@ namespace transportdemo {
     uint16_t get_type() const { return ntohs(type); }
     uint16_t get_sequence() const { return ntohs(sequence); }
     uint32_t get_timestamp() const { return ntohl(timestamp); }
+  };
+
+  struct TESTFECHeader{
+    int16_t type; // 2B
+    uint32_t length; // 4B
+    int16_t fec_k; // 2B
+    int16_t fec_n; // 2B
+    int16_t fec_index; //2B
+    uint32_t fec_group_id; // 4B
+    uint16_t sequence; // 2B
+    int16_t packet_size; // 2B
+    int16_t last_packet_size; // 2B
+    int16_t is_last_packet; // 2B
+
+    uint16_t get_type() const { return ntohs(type); }
+    uint32_t get_length() const { return ntohl(length); }
+    uint16_t get_fec_k() const { return ntohs(fec_k); }
+    uint16_t get_fec_n() const { return ntohs(fec_n); }
+    uint16_t get_fec_index() const { return ntohs(fec_index); }
+    uint32_t get_fec_group_id() const { return ntohl(fec_group_id); }
+    uint16_t get_sequence() const { return ntohs(sequence); }
+    uint16_t get_packet_size() const { return ntohs(packet_size); }
+    uint16_t get_last_packet_size() const { return ntohs(last_packet_size); }
+    uint16_t get_is_last_packet() const { return ntohs(is_last_packet); }
+  };
+  struct TESTFECPayload {
+    TESTFECHeader header;
+    uint8_t      buf[1300];
   };
 
   struct TESTTPPayload {

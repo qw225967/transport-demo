@@ -11,12 +11,14 @@
 #include "test_tp.h"
 
 #define TPYE_RTT 12
+#define TPYE_FEC 13
 #define TPYE_TRANSPORT_PACKET 1
 #define TPYE_TRANSPORT_INFO 2
 
 namespace transportdemo {
   static constexpr std::size_t RTP_HEADER_SIZE_BYTES  = 8;
   static constexpr std::size_t RTCP_HEADER_SIZE_BYTES  = 8;
+  static constexpr std::size_t FEC_HEADER_SIZE_BYTES  = 24;
   static constexpr std::size_t NACK_ITEM_BYTES = 4;
   static constexpr std::size_t RTT_PAYLOAD_BYTES = 4;
   static constexpr std::size_t MAX_NACK_ITEM_NUM = 347;
@@ -112,7 +114,7 @@ namespace transportdemo {
     TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
 
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(packet->mutable_buffer());
-    header->type = htons(TPYE_RTT);
+    header->type = htons(TPYE_FEC);
 
     TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(packet->mutable_buffer() + RTCP_HEADER_SIZE_BYTES);
     payload->rtt.num = num;
@@ -124,4 +126,28 @@ namespace transportdemo {
     return packet;
   }
 
+  TESTTPPacketPtr Pack::fec_packing(uint32_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+                                     size_t size) {
+    TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
+    TESTFECHeader *header = reinterpret_cast<TESTFECHeader *>(packet->mutable_buffer());
+    header->type = htons(TPYE_RTT);
+    header->fec_group_id = htonl(groupId);
+    header->fec_index = index;
+    header->fec_k = k;
+    header->fec_n = n;
+    header->packet_size = 1300;
+    header->sequence = 0;
+    header->last_packet_size = 1300;
+    header->is_last_packet = 0;
+
+    TESTFECPayload *payload = reinterpret_cast<TESTFECPayload *>(packet->mutable_buffer() + FEC_HEADER_SIZE_BYTES);
+    std::memmove(payload->buf, data, size);
+
+    uint16_t length = static_cast<uint16_t>(FEC_HEADER_SIZE_BYTES + size);
+
+    header->length = htonl(length);
+    packet->mod_length(length);
+
+    return packet;
+  }
 } // transport-demo

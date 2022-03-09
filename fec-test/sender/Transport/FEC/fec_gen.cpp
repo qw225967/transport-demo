@@ -9,6 +9,13 @@
 
 #include "fec_gen.h"
 
+extern "C"{
+#include "fec.h"
+}
+
+
+#define MAX_FEC_PACKET_SIZE 1300
+
 namespace transportdemo {
   FECGenerator::FECGenerator(int k,int n,int packetSize){
     fec_k = k;
@@ -27,6 +34,7 @@ namespace transportdemo {
       output_data[i] = new uint8_t[MAX_FEC_PACKET_SIZE];
       used_marks[i] = false;
     }
+
   }
   FECGenerator::~FECGenerator(){
     for(int i = 0; i < kMaxN; ++i){
@@ -36,14 +44,15 @@ namespace transportdemo {
     fec_free(fec);
   }
 
-  void FECGenerator::Encode(uint8_t* data,size_t size,fec_encode_callback callback){
+  void FECGenerator::Encode(uint8_t *data, size_t size, std::function<void(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+      size_t size)> callback){
     // 如果是原始数据，那么先复制到数组中，然后返回，因为要凑齐k个数据才能fec编码
     if(packet_count < fec_k){
       memcpy(input_data[packet_count],data,size);
 
       fec_encode(fec,(void**)input_data,output_data[packet_count],packet_count,size);
 
-      callback(last_group_id,fec_k,fec_n,packet_count,output_data[packet_count],size);
+      callback(last_group_id, fec_k, fec_n, packet_count, output_data[packet_count], size);
 
       ++packet_count;
       ++raw_packet_count;
@@ -64,25 +73,26 @@ namespace transportdemo {
     Clear();
   }
 
-  void FECGenerator::Decode(FecPacketHead* head,uint8_t* data,size_t size,fec_decode_callback callback){
+  void FECGenerator::Decode(TESTFECHeader *header, uint8_t *decoded_data, std::function<void(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+      size_t size)> callback){
 
-    last_packet_size = head->last_packet_size;
+    last_packet_size = header->last_packet_size;
 
-    if(head->fec_group_id != last_group_id){
+    if(header->fec_group_id != last_group_id){
       Clear();
-      last_group_id = head->fec_group_id;
+      last_group_id = header->fec_group_id;
     }
 
     // 如果index指向的位置还没有数据，表示是第一次接收到这块数据，那么把数据放进buffer中
     // 另外，如果这块数据是原始数据，那么还需要回调给上层
-    if(used_marks[head->fec_index] == false){
+    if(used_marks[header->fec_index] == false){
 
-      memcpy(input_data[head->fec_index],data,size);
-      used_marks[head->fec_index] = true;
+      memcpy(input_data[header->fec_index],decoded_data,header->length);
+      used_marks[header->fec_index] = true;
 
       // 属于原始包，那么返回它；冗余包不能返回
-      if(head->fec_index < fec_k){
-        callback(last_group_id,head->fec_k,head->fec_n,head->fec_index,data,size);
+      if(header->fec_index < fec_k){
+        callback(last_group_id, header->fec_k, header->fec_n, header->fec_index, decoded_data, header->length);
         ++raw_packet_count;
       }
 

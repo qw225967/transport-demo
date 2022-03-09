@@ -16,17 +16,9 @@
 #include <map>
 #include <memory>
 
-#include "packet.h"
+#include "test_tp.h"
 
 namespace transportdemo {
-  // FEC编码回调
-  typedef void (*fec_encode_callback)(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
-                                      size_t size);
-
-  // FEC解码回调
-  typedef void (*fec_decode_callback)(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
-                                      size_t size);
-
   class FECGenerator {
   private:
     enum {
@@ -38,10 +30,12 @@ namespace transportdemo {
 
     ~FECGenerator();
 
-    void Encode(uint8_t *data, size_t size, fec_encode_callback callback);
+    void Encode(uint8_t *data, size_t size, std::function<void(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+        size_t size)> callback);
 
     // 如果packet == NULL，那么表示开始利用冗余块去恢复原始块
-    void Decode(FecPacketHead *head, uint8_t *data, size_t size, fec_decode_callback callback);
+    void Decode(TESTFECHeader *header, uint8_t *data, std::function<void(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+        size_t size)> callback);
 
 
   private:
@@ -75,7 +69,8 @@ namespace transportdemo {
 
     // 当前group的id
     // k个原始包加上n-k个冗余包构成一个group
-    uint64_t last_group_id;
+    uint32_t last_group_id;
+
   };
 
 } // transport-demo
