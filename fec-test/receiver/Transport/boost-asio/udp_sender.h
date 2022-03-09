@@ -19,6 +19,8 @@ namespace transportdemo {
 typedef std::shared_ptr<TESTTPPacket> TESTTPPacketPtr;
 class NackGenerator;
 typedef std::shared_ptr<NackGenerator> NackGeneratorPtr;
+class FECGenerator;
+typedef std::shared_ptr<FECGenerator> FECGeneratorPtr;
 
 class UDPSender {
 public:
@@ -33,6 +35,8 @@ public:
   void handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd);
   void do_timer(bool first);
   void handle_crude_timer(const ErrorCode &ec);
+  void fec_encode_callback(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+                           size_t size);
 
 private:
   IOService     ios_;
@@ -52,6 +56,8 @@ private:
   NackGeneratorPtr nackgen_;
 
   UDPEndpoint send_ep_;
+
+  FECGeneratorPtr fec_gen_;
 };
 
 } // transport-demo

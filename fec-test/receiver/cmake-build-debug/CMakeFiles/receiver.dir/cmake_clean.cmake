@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/receiver.dir/Transport/FEC/fec.c.o"
+  "CMakeFiles/receiver.dir/Transport/FEC/fec_gen.cpp.o"
   "CMakeFiles/receiver.dir/Transport/boost-asio/udp_sender.cpp.o"
   "CMakeFiles/receiver.dir/Transport/nack_gen.cpp.o"
   "CMakeFiles/receiver.dir/Transport/pack.cpp.o"
@@ -8,6 +10,6 @@ file(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang CXX)
+foreach(lang C CXX)
   include(CMakeFiles/receiver.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

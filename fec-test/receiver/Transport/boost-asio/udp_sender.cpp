@@ -11,6 +11,11 @@
 #include "../test_tp.h"
 #include "../nack_gen.h"
 #include "../pack.h"
+#include "../FEC/fec_gen.h"
+
+#define FEC_K 4
+#define FEC_N 8
+#define FEC_SIZE 10
 
 namespace transportdemo {
   UDPSender::UDPSender(std::string ip, uint16_t port, uint64_t timer_ms)
@@ -26,6 +31,8 @@ namespace transportdemo {
     boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("127.0.0.1");
     UDPEndpoint send_endpoint(send_addr,8000);
     send_ep_ = send_endpoint;
+
+    fec_gen_= std::make_shared<FECGenerator>(FEC_K, FEC_N, FEC_SIZE);
   }
 
   void UDPSender::run() {
@@ -79,6 +86,19 @@ namespace transportdemo {
       return;
     }
 
+    if (header->get_type() == 13) {
+      TESTFECPayload *payload = reinterpret_cast<TESTFECPayload *>(pkt->mutable_buffer());
+      TESTFECHeader *header_fec = reinterpret_cast<TESTFECHeader *>(pkt->mutable_buffer());
+      fec_gen_->Decode(header_fec, payload->buf, std::bind(&UDPSender::fec_encode_callback, this,
+                                                           std::placeholders::_1,
+                                                           std::placeholders::_2,
+                                                           std::placeholders::_3,
+                                                           std::placeholders::_4,
+                                                           std::placeholders::_5,
+                                                           std::placeholders::_6));
+      return;
+    }
+
     nackgen_->ReceivePacket(pkt);
 
     do_receive_from();
@@ -115,6 +135,13 @@ namespace transportdemo {
 
     count_timer_ms_ += timer_ms_;
     do_timer(false);
+  }
+
+  void UDPSender::fec_encode_callback(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+                           size_t size) {
+
+    std::cout << "fec_encode_callback" << std::endl;
+
   }
 
 }
