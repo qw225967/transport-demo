@@ -18,7 +18,7 @@
 namespace transportdemo {
   static constexpr std::size_t RTP_HEADER_SIZE_BYTES  = 8;
   static constexpr std::size_t RTCP_HEADER_SIZE_BYTES  = 8;
-  static constexpr std::size_t FEC_HEADER_SIZE_BYTES  = 24;
+  static constexpr std::size_t FEC_HEADER_SIZE_BYTES  = 26;
   static constexpr std::size_t NACK_ITEM_BYTES = 4;
   static constexpr std::size_t RTT_PAYLOAD_BYTES = 4;
   static constexpr std::size_t MAX_NACK_ITEM_NUM = 347;
@@ -114,7 +114,7 @@ namespace transportdemo {
     TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
 
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(packet->mutable_buffer());
-    header->type = htons(TPYE_FEC);
+    header->type = htons(TPYE_RTT);
 
     TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(packet->mutable_buffer() + RTCP_HEADER_SIZE_BYTES);
     payload->rtt.num = num;
@@ -130,18 +130,19 @@ namespace transportdemo {
                                      size_t size) {
     TESTTPPacketPtr packet = std::make_shared<TESTTPPacket>();
     TESTFECHeader *header = reinterpret_cast<TESTFECHeader *>(packet->mutable_buffer());
-    header->type = htons(TPYE_RTT);
+    header->type = htons(TPYE_FEC);
+    header->padding = htons(0);
     header->fec_group_id = htonl(groupId);
-    header->fec_index = index;
-    header->fec_k = k;
-    header->fec_n = n;
-    header->packet_size = 1300;
-    header->sequence = 0;
-    header->last_packet_size = 1300;
-    header->is_last_packet = 0;
+    header->fec_index = htons(index);
+    header->fec_k = htons(k);
+    header->fec_n = htons(n);
+    header->packet_size = htons(1300);
+    header->sequence = htons(0);
+    header->last_packet_size = htons(1300);
+    header->is_last_packet = htons(0);
 
-    TESTFECPayload *payload = reinterpret_cast<TESTFECPayload *>(packet->mutable_buffer() + FEC_HEADER_SIZE_BYTES);
-    std::memmove(payload->buf, data, size);
+    TESTFECPayload *payload = reinterpret_cast<TESTFECPayload *>(packet->mutable_buffer());
+    std::memcpy(payload->buf, data, size);
 
     uint16_t length = static_cast<uint16_t>(FEC_HEADER_SIZE_BYTES + size);
 

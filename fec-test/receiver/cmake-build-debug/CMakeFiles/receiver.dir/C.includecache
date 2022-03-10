@@ -6,15 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/FEC/fec.c
-stdio.h
--
-stdlib.h
--
-string.h
--
-time.h
--
-sys/time.h
--
-

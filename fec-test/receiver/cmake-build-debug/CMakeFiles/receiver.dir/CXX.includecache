@@ -10,20 +10,6 @@
 transport_fd.h
 ../Transport/transport_fd.h
 
-../Transport/transport_fd.h
-iostream
--
-/opt/homebrew/Cellar/boost/1.76.0/include/boost/asio.hpp
--
-
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/FEC/fec.h
-
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/FEC/fec_gen.cpp
-fec_gen.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/FEC/fec_gen.h
-fec.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/FEC/fec.h
-
 /Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/FEC/fec_gen.h
 assert.h
 -
@@ -51,15 +37,13 @@ udp_sender.h
 /Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/boost-asio/udp_sender.h
 unordered_map
 -
+map
+-
+vector
+-
+unordered_map
+-
 ../test_tp.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/test_tp.h
-
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/nack_gen.cpp
-nack_gen.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/nack_gen.h
-pack.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/pack.h
-test_tp.h
 /Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/test_tp.h
 
 /Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/nack_gen.h
@@ -69,12 +53,6 @@ memory
 -
 /opt/homebrew/Cellar/boost/1.76.0/include/boost/date_time/posix_time/posix_time.hpp
 -
-
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/pack.cpp
-pack.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/pack.h
-test_tp.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/test_tp.h
 
 /Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/pack.h
 memory
@@ -91,12 +69,6 @@ iostream
 -
 /opt/homebrew/Cellar/boost/1.76.0/include/boost/asio.hpp
 -
-
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/main.cpp
-iostream
--
-Transport/boost-asio/udp_sender.h
-/Users/admin/go/src/github.com/transport-demo/fec-test/receiver/Transport/boost-asio/udp_sender.h
 
 /opt/homebrew/Cellar/boost/1.76.0/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp

@@ -13,6 +13,10 @@
 #include "pack.h"
 #include "FEC/fec_gen.h"
 
+#include <string>
+#include <ostream>
+#include <iomanip>
+
 
 #define FEC_K 4
 #define FEC_N 8
@@ -20,6 +24,23 @@
 
 
 namespace transportdemo {
+  std::string bytes_to_hex(const uint8_t *buf, std::size_t len, std::size_t num_per_line) {
+    if (buf == NULL || len == 0 || num_per_line == 0) {
+      return std::string();
+    }
+    std::ostringstream oss;
+    for (std::size_t i = 0; i < len; i++) {
+      oss << std::right << std::setw(3) << std::hex << static_cast<int>(buf[i]);
+      if ((i+1) % num_per_line == 0) {
+        oss << '\n';
+      }
+    }
+    if (len % num_per_line != 0) {
+      oss << '\n';
+    }
+    return oss.str();
+  }
+
   UDPSender::UDPSender(std::string ip, uint16_t port, uint64_t timer_ms)
   : local_ip_(ip)
   , local_port_(port)
@@ -57,6 +78,7 @@ namespace transportdemo {
     auto pkt = Pack::packing_packet(seq, timestamp);
     pkt_map_[seq] = pkt;
 
+//    std::cout << bytes_to_hex(pkt->mutable_buffer(), pkt->length(), 8) << std::endl;
     fec_gen_->Encode(pkt->mutable_buffer(), pkt->length(), std::bind(&UDPSender::fec_encode_callback, this,
                                                                      std::placeholders::_1,
                                                                      std::placeholders::_2,
@@ -128,6 +150,8 @@ namespace transportdemo {
   void UDPSender::fec_encode_callback(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
                            size_t size) {
 
+
+
     if(groupId % 2 == 0){
       if(index < FEC_K){
         //printf("client drop [%lld][%d]\n",groupId,index);
@@ -140,9 +164,31 @@ namespace transportdemo {
         return;
       }
     }
+//    std::cout << bytes_to_hex(data, size, 8) << std::endl;
 
     auto pkt = Pack::fec_packing(groupId, k, n, index, data, size);
+
+//    std::cout << bytes_to_hex(pkt->mutable_buffer(), pkt->length(), 8) << std::endl;
     send_packet(pkt, send_ep_);
+
+//    TESTFECHeader* header = reinterpret_cast<TESTFECHeader*>(pkt->mutable_buffer());
+//    TESTFECPayload* payload = reinterpret_cast<TESTFECPayload*>(pkt->mutable_buffer());
+//    fec_gen_->Decode(header, payload->buf, std::bind(&UDPSender::fec_dencode_callback, this,
+//                                                     std::placeholders::_1,
+//                                                     std::placeholders::_2,
+//                                                     std::placeholders::_3,
+//                                                     std::placeholders::_4,
+//                                                     std::placeholders::_5,
+//                                                     std::placeholders::_6));
+
+  }
+
+  void UDPSender::fec_dencode_callback(uint64_t groupId, int16_t k, int16_t n, int16_t index, uint8_t *data,
+                                       size_t size) {
+
+//    std::cout << bytes_to_hex(data, size, 8) << std::endl;
+    TESTTPHeader *header = reinterpret_cast<TESTTPHeader *>(data);
+    std::cout << "fec_encode_callback:"<< header->get_sequence() << std::endl;
 
   }
 

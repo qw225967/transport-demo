@@ -34,8 +34,9 @@ namespace transportdemo {
   };
 
   struct TESTFECHeader{
-    int16_t type; // 2B
+    uint16_t type; // 2B
     uint32_t length; // 4B
+    uint16_t padding; // 2B
     int16_t fec_k; // 2B
     int16_t fec_n; // 2B
     int16_t fec_index; //2B
