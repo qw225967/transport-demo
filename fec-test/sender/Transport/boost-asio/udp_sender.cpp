@@ -18,7 +18,7 @@
 #include <iomanip>
 
 
-#define FEC_K 4
+#define FEC_K 8
 #define FEC_N 8
 #define FEC_SIZE 10
 
@@ -46,6 +46,7 @@ namespace transportdemo {
   , local_port_(port)
   , timer_ms_(timer_ms)
   , seq_(1)
+  , fec_count_(0)
   , timer_(ios_, PosixTime::milliseconds(static_cast<int64_t>(timer_ms_))){
     socket_ = std::make_shared<UDPSocket>(ios_);
     boost::asio::ip::address send_addr = boost::asio::ip::address::from_string("192.168.26.23");
@@ -142,6 +143,7 @@ namespace transportdemo {
   void UDPSender::handle_crude_timer(const ErrorCode &ec) {
     uint32_t now = (uint32_t)GetCurrentStamp64();
     sender_test(seq_, now, send_ep_);
+    std::cout << seq_ << std::endl;
     seq_++;
 
     do_timer(false);
@@ -170,6 +172,7 @@ namespace transportdemo {
 
 //    std::cout << bytes_to_hex(pkt->mutable_buffer(), pkt->length(), 8) << std::endl;
     send_packet(pkt, send_ep_);
+    std::cout << "fec send:" << fec_count_++ << std::endl;
 
 //    TESTFECHeader* header = reinterpret_cast<TESTFECHeader*>(pkt->mutable_buffer());
 //    TESTFECPayload* payload = reinterpret_cast<TESTFECPayload*>(pkt->mutable_buffer());

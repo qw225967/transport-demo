@@ -13,7 +13,7 @@
 #include "../pack.h"
 #include "../FEC/fec_gen.h"
 
-#define FEC_K 4
+#define FEC_K 8
 #define FEC_N 8
 #define FEC_SIZE 10
 #define MAX_GROUPS 4
@@ -182,7 +182,7 @@ namespace transportdemo {
 
 
 //    std::cout << bytes_to_hex(data, size, 8) << std::endl;
-//    std::cout << "fec_encode_callback:"<< header_pkt->get_sequence() << std::endl;
+    std::cout << "fec_encode_callback:"<< header_pkt->get_sequence() << std::endl;
     nackgen_->ReceivePacket(packet);
   }
 

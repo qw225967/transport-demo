@@ -103,6 +103,7 @@ namespace transportdemo {
   void UDPSender::handle_crude_timer(const ErrorCode &ec) {
     uint32_t now = (uint32_t)GetCurrentStamp64();
     sender_test(seq_, now, send_ep_);
+    std::cout << seq_ << std::endl;
     seq_++;
 //    if (seq_ % 30 == 0) {
 //      for (int i=seq_; i<=seq_+4;i++) {

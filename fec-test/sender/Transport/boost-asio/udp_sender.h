@@ -59,6 +59,7 @@ private:
   uint16_t seq_;
 
   FECGeneratorPtr fec_gen_;
+  uint64_t fec_count_;
 };
 
 } // transport-demo
