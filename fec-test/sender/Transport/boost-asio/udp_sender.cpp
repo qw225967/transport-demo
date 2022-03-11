@@ -109,7 +109,8 @@ namespace transportdemo {
 
   void UDPSender::handle_receive_from(TESTTPPacketPtr pkt, const ErrorCode &ec, std::size_t bytes_recvd) {
     TESTTCPHeader *header = reinterpret_cast<TESTTCPHeader *>(pkt->mutable_buffer());
-
+    
+    // nack ： 收到nack立刻从队列中返回
     if (header->get_type() == 12) {
       TESTTCPPayload * rtt = reinterpret_cast<TESTTCPPayload *>(pkt->mutable_buffer()+8);
       auto rtt_pack = Pack::rtt_packing(rtt->rtt.num);
@@ -154,6 +155,7 @@ namespace transportdemo {
 
 
 
+    // 等待group收集 足够的包进行fec
     if(groupId % 2 == 0){
       if(index < FEC_K){
         //printf("client drop [%lld][%d]\n",groupId,index);

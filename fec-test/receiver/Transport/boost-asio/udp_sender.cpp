@@ -91,7 +91,11 @@ namespace transportdemo {
     send_ep_ = pkt->mutable_endpoint();
     pkt->mod_length(bytes_recvd);
 
+
+    // 解析类型
     TESTTPHeader *header = reinterpret_cast<TESTTPHeader *>(pkt->mutable_buffer());
+    
+    // nack
     if (header->get_type() == 12) {
       TESTTCPPayload *payload = reinterpret_cast<TESTTCPPayload *>(pkt->mutable_buffer() + 8);
       auto num = payload->rtt.num;
@@ -104,13 +108,16 @@ namespace transportdemo {
       do_receive_from();
       return;
     }
-
+    
+    // fec
     if (header->get_type() == 13) {
 //      std::cout << bytes_to_hex(pkt->mutable_buffer(), pkt->length(), 8) << std::endl;
 
       TESTFECPayload *payload = reinterpret_cast<TESTFECPayload *>(pkt->mutable_buffer());
       TESTFECHeader *header_fec = reinterpret_cast<TESTFECHeader *>(pkt->mutable_buffer());
 //      collect_packet(header_fec, payload->buf, header_fec->get_length());
+
+      // 接到fec数据解码
       fec_gen_->Decode(header_fec, payload->buf, std::bind(&UDPSender::fec_dencode_callback, this,
                                                  std::placeholders::_1,
                                                  std::placeholders::_2,
@@ -258,7 +265,7 @@ namespace transportdemo {
       }
     }
   }
-
+  // group test
   void UDPSender::decode_fec_group(uint32_t groupID){
     if(groups_.find(groupID) == groups_.end()){
       return;
