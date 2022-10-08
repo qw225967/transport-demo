@@ -649,7 +649,7 @@ void ForwardErrorCorrection::AttemptRecovery(
 
     // We can only recover one packet with an FEC packet.
     if (packets_missing == 1) {
-//      std::cout << "frq test fec packet ssrc:" << (*fec_packet_it)->ssrc
+//      std::cout << "test fec packet ssrc:" << (*fec_packet_it)->ssrc
 //                << ", seq:" << (*fec_packet_it)->seq_num
 //                << ", seq_base:" <<(*fec_packet_it)->seq_num_base
 //                << ", packets_missing:" << packets_missing << std::endl;
@@ -680,7 +680,7 @@ void ForwardErrorCorrection::AttemptRecovery(
       // Restart for first FEC packet.
       fec_packet_it = received_fec_packets_.begin();
     } else if (packets_missing == 0) {
-//      std::cout << "frq test fec packet ssrc:" << (*fec_packet_it)->ssrc
+//      std::cout << "test fec packet ssrc:" << (*fec_packet_it)->ssrc
 //      << ", seq:" << (*fec_packet_it)->seq_num
 //      << ", seq_base:" <<(*fec_packet_it)->seq_num_base
 //      << ", packets_missing:" << packets_missing << std::endl;
@@ -688,7 +688,7 @@ void ForwardErrorCorrection::AttemptRecovery(
       // discard this FEC packet.
       fec_packet_it = received_fec_packets_.erase(fec_packet_it);
     } else {
-//      std::cout << "frq test fec packet ssrc:" << (*fec_packet_it)->ssrc
+//      std::cout << "test fec packet ssrc:" << (*fec_packet_it)->ssrc
 //      << ", seq:" << (*fec_packet_it)->seq_num
 //      << ", seq_base:" <<(*fec_packet_it)->seq_num_base
 //      << ", packets_missing:" << packets_missing << std::endl;
